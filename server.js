@@ -36,12 +36,20 @@ app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     message: 'Scriptor Umbra AI Backend is running',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    supabase_configured: !!(process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY),
+    openai_configured: !!process.env.OPENAI_API_KEY
   });
 });
 
+// Authentication routes
+app.use('/api/auth', require('./routes/auth'));
+
 // Chat routes
 app.use('/api/chat', require('./routes/chat'));
+
+// Conversation routes
+app.use('/api/conversations', require('./routes/conversations'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
