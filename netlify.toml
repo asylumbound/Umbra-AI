@@ -1,0 +1,61 @@
+[build]
+  # Build command for the frontend
+  command = "npm run build:frontend"
+  
+  # Directory to publish (frontend build output)
+  publish = "dist"
+  
+  # Functions directory for serverless backend
+  functions = "netlify/functions"
+
+[build.environment]
+  # Node.js version
+  NODE_VERSION = "18"
+  
+  # Build environment
+  NODE_ENV = "production"
+
+# Redirect all API calls to serverless functions
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# SPA fallback - redirect all other routes to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.openai.com;"
+
+# Cache static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Environment variables (these will be set in Netlify dashboard)
+# OPENAI_API_KEY
+# ASSISTANT_ID
+# SUPABASE_URL
+# SUPABASE_ANON_KEY
+# SUPABASE_SERVICE_ROLE_KEY
