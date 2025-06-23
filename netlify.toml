@@ -1,4 +1,7 @@
 [build]
+  # No build command needed - files are pre-built
+  command = ""
+  
   # Directory to publish (frontend files)
   publish = "DRAG_TO_DOMAIN"
   
