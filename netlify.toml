@@ -1,9 +1,6 @@
 [build]
-  # Build command for the frontend
-  command = "npm run build:frontend"
-  
-  # Directory to publish (frontend build output)
-  publish = "dist"
+  # Directory to publish (frontend files)
+  publish = "DRAG_TO_DOMAIN"
   
   # Functions directory for serverless backend
   functions = "netlify/functions"
